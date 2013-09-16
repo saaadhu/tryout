@@ -31,14 +31,13 @@ func compile (code string, options string) (success bool, buildOutput string, li
             split_options = append (split_options, output_file)
             cmd := exec.Command (install_prefix + "/avr-gcc", split_options...)
 
-            if output, err := cmd.CombinedOutput (); err == nil {
-                defer os.Remove(output_file)
-                buildOutput = string(output)
-                success = cmd.ProcessState.Success()
-                cmd := exec.Command (install_prefix + "/avr-objdump", "-S", output_file)
-                if output, err = cmd.CombinedOutput (); err == nil {
-                    listing = string(output)
-                }
+            output, err := cmd.CombinedOutput ()
+            defer os.Remove(output_file)
+            buildOutput = string(output)
+            success = cmd.ProcessState.Success()
+            cmd = exec.Command (install_prefix + "/avr-objdump", "-S", output_file)
+            if output, err = cmd.CombinedOutput (); err == nil {
+                listing = string(output)
             }
         }
     }
