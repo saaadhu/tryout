@@ -20,7 +20,10 @@ func compile (code string, options string) (success bool, buildOutput string, li
         if _, err = file.WriteString (code); err == nil {
             output_file := scratch_path + "/" + filepath.Base(file.Name()) + ".out"
 
-            split_options := strings.Split(options, " ")
+            split_options := []string {}
+            if len(options) != 0 {
+                split_options = strings.Split(options, " ")
+            }
             split_options = append (split_options, "-xc")
             split_options = append (split_options, file.Name())
             split_options = append (split_options, "-c")
@@ -39,7 +42,6 @@ func compile (code string, options string) (success bool, buildOutput string, li
             }
         }
     }
-    fmt.Println (listing)
     return
 }    
 
