@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="tryout" ng-cloak>
+  <head>
+    <title> Try out avr-gcc </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.5.0.js"></script>
+    <script src="scripts/tryout.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  </head>
+  <body ng-controller="TryoutCtrl">
+    <div class="container">
+      <h2> Try out avr-gcc hot off the press! </h2>
+      <div class="form-group">
+          <textarea autofocus ng-model="code" class="row-fluid" rows="20" placeholder="Enter code here"></textarea>
+      </div>
+      <div class="form-group">
+          <input type="text" class="row=fluid" ng-model="options">
+      </div>
+      <div class="form-group">
+          <input type="submit" class="form-control btn-default btn-primary" ng-click="compile()" value="Compile">
+      </div>
+      <div class="form-group">
+          <div> Build Output </div>
+          <pre>
+          {{ output }}
+          </pre>
+      </div>
+      <div class="form-group">
+          <div> Assembly Listing </div>
+          <pre>
+          {{ lss }}
+          </pre>
+      </div>
+    </div>
+  </body>
+</html>
