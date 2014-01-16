@@ -18,7 +18,7 @@ func compile (code string, options string) (success bool, buildOutput string, li
         defer file.Close()
         defer os.Remove(file.Name())
         if _, err = file.WriteString (code); err == nil {
-            output_file := scratch_path + "/" + filepath.Base(file.Name()) + ".out"
+            output_file := scratch_path + "/" + filepath.Base(file.Name()) + ".s"
 
             split_options := []string {}
             if len(options) != 0 {
@@ -26,7 +26,7 @@ func compile (code string, options string) (success bool, buildOutput string, li
             }
             split_options = append (split_options, "-xc")
             split_options = append (split_options, file.Name())
-            split_options = append (split_options, "-c")
+            split_options = append (split_options, "-S")
             split_options = append (split_options, "-o")
             split_options = append (split_options, output_file)
             cmd := exec.Command (install_prefix + "/avr-gcc", split_options...)
@@ -35,9 +35,11 @@ func compile (code string, options string) (success bool, buildOutput string, li
             defer os.Remove(output_file)
             buildOutput = string(output)
             success = cmd.ProcessState.Success()
-            cmd = exec.Command (install_prefix + "/avr-objdump", "-S", output_file)
-            if output, err = cmd.CombinedOutput (); err == nil {
-                listing = string(output)
+            if err == nil {
+                contents, err := ioutil.ReadFile (output_file)
+                if err == nil {
+                    listing = string(contents)
+                }
             }
         }
     }
