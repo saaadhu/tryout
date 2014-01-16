@@ -81,7 +81,7 @@ func buildHandler (w http.ResponseWriter, r *http.Request) {
 
 func initWebServer() {
     http.HandleFunc ("/compile", buildHandler)
-    http.Handle ("/view/", http.StripPrefix("/view/", http.FileServer(http.Dir("/home/saaadhu/code/git/tryout/src/tryout/www"))))
+    http.Handle ("/view/", http.StripPrefix("/view/", http.FileServer(http.Dir("www"))))
     http.ListenAndServe(":8082", nil)
 }
 
